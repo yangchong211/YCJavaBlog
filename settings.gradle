@@ -1,0 +1,3 @@
+include ':MagiskTool'
+include ':app'
+rootProject.name = "YCMagiskTool"
