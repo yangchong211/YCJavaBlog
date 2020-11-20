@@ -1,1 +1,1 @@
-# YCGoStudy
+# Magisk学习
