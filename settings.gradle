@@ -1,4 +1,4 @@
-include ':WxRobTool'
+include ':CheckTool'
 include ':MagiskTool'
 include ':app'
 rootProject.name = "YCMagiskTool"
