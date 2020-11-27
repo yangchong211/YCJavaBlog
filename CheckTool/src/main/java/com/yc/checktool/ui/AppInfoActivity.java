@@ -19,6 +19,7 @@ import com.yc.checktool.BuildConfig;
 import com.yc.checktool.help.CheckAppTool;
 import com.yc.checktool.R;
 import com.yc.checktool.utils.AppDeviceUtils;
+import com.yc.checktool.utils.AppProcessUtils;
 
 /**
  * <pre>
@@ -56,10 +57,14 @@ public class AppInfoActivity extends AppCompatActivity {
         mTvContentInfo = findViewById(R.id.tv_content_info);
     }
 
-
     private void setPhoneInfo() {
         Application application = CheckAppTool.getInstance().getApplication();
         final StringBuilder sb = new StringBuilder();
+        sb.append("该App信息:");
+        String currentProcessName = AppProcessUtils.getCurrentProcessName(this);
+        if (currentProcessName!=null){
+            sb.append("\nApp进程名称:").append(currentProcessName);
+        }
         sb.append("是否root:").append(AppRootUtils.isDeviceRooted());
         sb.append("\n系统硬件商:").append(AppDeviceUtils.getManufacturer());
         sb.append("\n设备的品牌:").append(AppDeviceUtils.getBrand());

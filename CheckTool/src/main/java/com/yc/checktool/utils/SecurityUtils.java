@@ -1,40 +1,23 @@
-package com.yc.checktool;
+package com.yc.checktool.utils;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.os.BatteryManager;
 import android.os.Process;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-
-public class SecurityCheckUtil {
-
-    private static class SingletonHolder {
-        private static final SecurityCheckUtil singleInstance = new SecurityCheckUtil();
-    }
-
-    private SecurityCheckUtil() {
-    }
-
-    public static final SecurityCheckUtil getSingleInstance() {
-        return SingletonHolder.singleInstance;
-    }
+/**
+ * <pre>
+ *     @author yangchong
+ *     email  : yangchong211@163.com
+ *     time  : 2020/7/10
+ *     desc  : 安全 工具类
+ *     revise:
+ * </pre>
+ */
+public final class SecurityUtils {
 
     /**
      * 检测有么有加载so库
@@ -42,7 +25,7 @@ public class SecurityCheckUtil {
      * @param paramString
      * @return
      */
-    public boolean hasReadProcMaps(String paramString) {
+    public static boolean hasReadProcMaps(String paramString) {
         try {
             Object localObject = new HashSet();
             BufferedReader localBufferedReader =
@@ -74,10 +57,11 @@ public class SecurityCheckUtil {
      *
      * @return
      */
-    public boolean readProcStatus() {
+    public static boolean readProcStatus() {
         try {
-            BufferedReader localBufferedReader = new BufferedReader(new FileReader(
-                    "/proc/" + Process.myPid() + "/status"));
+            int myPid = Process.myPid();
+            FileReader fileReader = new FileReader("/proc/" + myPid + "/status");
+            BufferedReader localBufferedReader = new BufferedReader(fileReader);
             String tracerPid = "";
             for (; ; ) {
                 String str = localBufferedReader.readLine();
@@ -90,8 +74,11 @@ public class SecurityCheckUtil {
                 }
             }
             localBufferedReader.close();
-            if ("0".equals(tracerPid)) return false;
-            else return true;
+            if ("0".equals(tracerPid)) {
+                return false;
+            } else {
+                return true;
+            }
         } catch (Exception fuck) {
             return false;
         }

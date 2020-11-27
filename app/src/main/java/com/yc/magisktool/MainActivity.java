@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.yc.checktool.ui.CheckTooActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mTv1;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_1:
+                startActivity(new Intent(this, CheckTooActivity.class));
                 break;
         }
     }

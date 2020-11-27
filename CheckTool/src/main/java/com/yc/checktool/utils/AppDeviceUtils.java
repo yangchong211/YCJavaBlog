@@ -20,8 +20,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.yc.checktool.ToolLogUtils;
-
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.DataOutputStream;

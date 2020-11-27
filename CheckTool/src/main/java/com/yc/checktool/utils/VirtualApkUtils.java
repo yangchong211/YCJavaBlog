@@ -1,13 +1,13 @@
-package com.yc.checktool;
+package com.yc.checktool.utils;
 
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.LocalServerSocket;
 import android.text.TextUtils;
-import android.util.Log;
+
+import com.yc.checktool.inter.VirtualCallback;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,20 +29,28 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+/**
+ * <pre>
+ *     @author yangchong
+ *     email  : yangchong211@163.com
+ *     time  : 2020/7/10
+ *     desc  : VirtualApk 工具类
+ *     revise:
+ * </pre>
+ */
+public class VirtualApkUtils {
 
-public class VirtualApkCheckUtil {
+    private static volatile VirtualApkUtils singleInstance;
 
-    private String TAG = "test";
-    private static volatile VirtualApkCheckUtil singleInstance;
+    private VirtualApkUtils() {
 
-    private VirtualApkCheckUtil() {
     }
 
-    public static VirtualApkCheckUtil getSingleInstance() {
+    public static VirtualApkUtils getSingleInstance() {
         if (singleInstance == null) {
-            synchronized (VirtualApkCheckUtil.class) {
+            synchronized (VirtualApkUtils.class) {
                 if (singleInstance == null) {
-                    singleInstance = new VirtualApkCheckUtil();
+                    singleInstance = new VirtualApkUtils();
                 }
             }
         }
@@ -54,7 +62,7 @@ public class VirtualApkCheckUtil {
      */
     private String[] virtualPkgs = {
             "com.bly.dkplat",//多开分身本身的包名
-//            "dkplugin.pke.nnp",//多开分身克隆应用的包名会随机变换
+            //"dkplugin.pke.nnp",//多开分身克隆应用的包名会随机变换
             "com.by.chaos",//chaos引擎
             "com.lbe.parallel",//平行空间
             "com.excelliance.dualaid",//双开助手
@@ -69,7 +77,7 @@ public class VirtualApkCheckUtil {
      * @param callback
      * @return
      */
-    public boolean checkByPrivateFilePath(Context context, VirtualCheckCallback callback) {
+    public boolean checkByPrivateFilePath(Context context, VirtualCallback callback) {
         String path = context.getFilesDir().getPath();
         for (String virtualPkg : virtualPkgs) {
             if (path.contains(virtualPkg)) {
@@ -88,10 +96,11 @@ public class VirtualApkCheckUtil {
      * @param callback
      * @return
      */
-    public boolean checkByOriginApkPackageName(Context context, VirtualCheckCallback callback) {
+    public boolean checkByOriginApkPackageName(Context context, VirtualCallback callback) {
         try {
-            if (context == null)
+            if (context == null){
                 throw new IllegalArgumentException("you have to set context first");
+            }
             int count = 0;
             String packageName = context.getPackageName();
             PackageManager pm = context.getPackageManager();
@@ -101,7 +110,9 @@ public class VirtualApkCheckUtil {
                     count++;
                 }
             }
-            if (count > 1 && callback != null) callback.findSuspect();
+            if (count > 1 && callback != null){
+                callback.findSuspect();
+            }
             return count > 1;
         } catch (Exception ignore) {
         }
@@ -115,7 +126,7 @@ public class VirtualApkCheckUtil {
      * @param callback
      * @return
      */
-    public boolean checkByMultiApkPackageName(VirtualCheckCallback callback) {
+    public boolean checkByMultiApkPackageName(VirtualCallback callback) {
         BufferedReader bufr = null;
         try {
             bufr = new BufferedReader(new FileReader("/proc/self/maps"));
@@ -129,7 +140,7 @@ public class VirtualApkCheckUtil {
                 }
             }
         } catch (Exception ignore) {
-
+            //ignore.printStackTrace();
         } finally {
             if (bufr != null) {
                 try {
@@ -149,35 +160,42 @@ public class VirtualApkCheckUtil {
      * @param callback
      * @return
      */
-    public boolean checkByHasSameUid(VirtualCheckCallback callback) {
+    public boolean checkByHasSameUid(VirtualCallback callback) {
         String filter = getUidStrFormat();
-        if (TextUtils.isEmpty(filter)) return false;
-
-        String result = CommandUtil.getSingleInstance().exec("ps");
-        if (TextUtils.isEmpty(result)) return false;
-
-        String[] lines = result.split("\n");
-        if (lines == null || lines.length <= 0) return false;
-
+        if (TextUtils.isEmpty(filter)) {
+            return false;
+        }
+        String result = CommandUtils.exec("ps");
+        if (TextUtils.isEmpty(result)) {
+            return false;
+        }
+        String[] lines = new String[0];
+        if (result != null) {
+            lines = result.split("\n");
+        }
+        if (lines.length <= 0){
+            return false;
+        }
         int exitDirCount = 0;
 
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].contains(filter)) {
+            if (filter != null && lines[i].contains(filter)) {
                 int pkgStartIndex = lines[i].lastIndexOf(" ");
-                String processName = lines[i].substring(pkgStartIndex <= 0
-                        ? 0 : pkgStartIndex + 1, lines[i].length());
+                String processName = lines[i].substring(pkgStartIndex <= 0 ? 0 : pkgStartIndex + 1);
                 File dataFile = new File(String.format("/data/data/%s", processName, Locale.CHINA));
                 if (dataFile.exists()) {
                     exitDirCount++;
                 }
             }
         }
-        if (exitDirCount > 1 && callback != null) callback.findSuspect();
+        if (exitDirCount > 1 && callback != null){
+            callback.findSuspect();
+        }
         return exitDirCount > 1;
     }
 
     private String getUidStrFormat() {
-        String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
+        String filter = CommandUtils.exec("cat /proc/self/cgroup");
         if (filter == null || filter.length() == 0) {
             return null;
         }
@@ -229,7 +247,7 @@ public class VirtualApkCheckUtil {
      * @param callback
      */
     @Deprecated
-    public void checkByPortListening(String secret, VirtualCheckCallback callback) {
+    public void checkByPortListening(String secret, VirtualCallback callback) {
         startClient(secret);
         new ServerThread(secret, callback).start();
     }
@@ -237,9 +255,9 @@ public class VirtualApkCheckUtil {
     //此时app作为secret的接收方，也就是server角色
     private class ServerThread extends Thread {
         String secret;
-        VirtualCheckCallback callback;
+        VirtualCallback callback;
 
-        private ServerThread(String secret, VirtualCheckCallback callback) {
+        private ServerThread(String secret, VirtualCallback callback) {
             this.secret = secret;
             this.callback = callback;
         }
@@ -253,21 +271,23 @@ public class VirtualApkCheckUtil {
 
     //找一个没被占用的端口开启监听
     //如果监听到有连接，开启读线程
-    private void startServer(String secret, VirtualCheckCallback callback) {
+    private void startServer(String secret, VirtualCallback callback) {
         Random random = new Random();
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket();
-            serverSocket.bind(new InetSocketAddress("127.0.0.1",
-                    random.nextInt(55534) + 10000));
+            int port = random.nextInt(55534)+ 10000;
+            InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1", port);
+            serverSocket.bind(inetSocketAddress);
             while (true) {
                 Socket socket = serverSocket.accept();
                 ReadThread readThread = new ReadThread(secret, socket, callback);
                 readThread.start();
-//                serverSocket.close();
+                //serverSocket.close();
             }
         } catch (BindException e) {
-            startServer(secret, callback);//may be loop forever
+            //may be loop forever
+            startServer(secret, callback);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -275,7 +295,7 @@ public class VirtualApkCheckUtil {
 
     //读线程读流信息，如果包含secret则认为被广义多开
     private class ReadThread extends Thread {
-        private ReadThread(String secret, Socket socket, VirtualCheckCallback callback) {
+        private ReadThread(String secret, Socket socket, VirtualCallback callback) {
             InputStream inputStream = null;
             try {
                 inputStream = socket.getInputStream();
@@ -296,7 +316,7 @@ public class VirtualApkCheckUtil {
 
     //读文件扫描已开启的端口，放入端口列表，每个端口都尝试连接一次
     private void startClient(String secret) {
-        String tcp6 = CommandUtil.getSingleInstance().exec("cat /proc/net/tcp6");
+        String tcp6 = CommandUtils.exec("cat /proc/net/tcp6");
         if (TextUtils.isEmpty(tcp6)) return;
         String[] lines = tcp6.split("\n");
         ArrayList<Integer> portList = new ArrayList<>();
@@ -338,14 +358,14 @@ public class VirtualApkCheckUtil {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String info = null;
                 while ((info = bufferedReader.readLine()) != null) {
-                    Log.i(TAG, "ClientThread: " + info);
+                    ToolLogUtils.i("ClientThread: " + info);
                 }
 
                 bufferedReader.close();
                 inputStream.close();
                 socket.close();
             } catch (ConnectException e) {
-                Log.i(TAG, port + "port refused");
+                ToolLogUtils.i(port + "port refused");
             } catch (SocketException e) {
                 e.printStackTrace();
             } catch (UnknownHostException e) {
@@ -369,8 +389,10 @@ public class VirtualApkCheckUtil {
      */
     private volatile LocalServerSocket localServerSocket;
 
-    public boolean checkByCreateLocalServerSocket(String uniqueMsg, VirtualCheckCallback callback) {
-        if (localServerSocket != null) return false;
+    public boolean checkByCreateLocalServerSocket(String uniqueMsg, VirtualCallback callback) {
+        if (localServerSocket != null) {
+            return false;
+        }
         try {
             localServerSocket = new LocalServerSocket(uniqueMsg);
             return false;
@@ -380,24 +402,5 @@ public class VirtualApkCheckUtil {
         }
     }
 
-    /**
-     * TopActivity的检查顶层task的思路
-     * https://github.com/109021017/android-TopActivity
-     * TopActivity作为另一个进程（观察者的角度）
-     * <p>
-     * 能够正确识别多开软件的正确包名，类名
-     * 这也是为什么能知道使用多开分身app多开后的应用包名是随机的。
-     * 这里我只是提供调用方法，随时可能删掉。
-     */
-    public String checkByTopTask(Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> rtis = am.getRunningTasks(1);
-        return rtis.get(0).topActivity.getPackageName();
-    }
 
-    public String checkByTopActivity(Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> rtis = am.getRunningTasks(1);
-        return rtis.get(0).topActivity.getClassName();
-    }
 }

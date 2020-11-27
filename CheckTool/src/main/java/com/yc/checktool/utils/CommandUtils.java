@@ -1,24 +1,21 @@
-package com.yc.checktool;
+package com.yc.checktool.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 
+/**
+ * <pre>
+ *     @author yangchong
+ *     email  : yangchong211@163.com
+ *     time  : 2020/7/10
+ *     desc  : 指令工具类
+ *     revise:
+ * </pre>
+ */
+public final class CommandUtils {
 
-public class CommandUtil {
-
-    private CommandUtil() {
-    }
-
-    private static class SingletonHolder {
-        private static final CommandUtil INSTANCE = new CommandUtil();
-    }
-
-    public static final CommandUtil getSingleInstance() {
-        return SingletonHolder.INSTANCE;
-    }
-
-    public String getProperty(String propName) {
+    public static String getProperty(String propName) {
         String value = null;
         Object roSecureObj;
         try {
@@ -34,7 +31,7 @@ public class CommandUtil {
         }
     }
 
-    public String exec(String command) {
+    public static String exec(String command) {
         BufferedOutputStream bufferedOutputStream = null;
         BufferedInputStream bufferedInputStream = null;
         Process process = null;
@@ -75,6 +72,11 @@ public class CommandUtil {
         }
     }
 
+    /**
+     * 读取流转变化为字符串
+     * @param bufferedInputStream                           流
+     * @return
+     */
     private static String getStrFromBufferInputSteam(BufferedInputStream bufferedInputStream) {
         if (null == bufferedInputStream) {
             return "";

@@ -24,7 +24,7 @@ import java.net.UnknownHostException;
  *     revise:
  * </pre>
  */
-public class AppToolUtils {
+public final class AppToolUtils {
 
 
     /**
@@ -49,7 +49,7 @@ public class AppToolUtils {
      * @param context                               上下文
      * @return
      */
-    public boolean checkIsUsbCharging(Context context) {
+    public static boolean checkIsUsbCharging(Context context) {
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, filter);
         if (batteryStatus == null){
@@ -65,7 +65,7 @@ public class AppToolUtils {
      * @param port                                  端口
      * @return
      */
-    public boolean isLocalPortUsing(int port) {
+    public static boolean isLocalPortUsing(int port) {
         boolean flag = true;
         try {
             flag = isPortUsing("127.0.0.1", port);
@@ -94,8 +94,11 @@ public class AppToolUtils {
         return flag;
     }
 
-
-
+    /**
+     * 复制内容到剪切板
+     * @param context                               上下文
+     * @param content                               内容
+     */
     public static void copyToClipBoard(Context context , String content){
         if (!TextUtils.isEmpty(content)){
             //获取剪贴版

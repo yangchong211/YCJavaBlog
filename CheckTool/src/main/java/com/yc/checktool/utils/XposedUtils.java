@@ -2,11 +2,19 @@ package com.yc.checktool.utils;
 
 import java.lang.reflect.Field;
 
+/**
+ * <pre>
+ *     @author yangchong
+ *     email  : yangchong211@163.com
+ *     time  : 2020/7/10
+ *     desc  : Xposed环境 工具类
+ *     revise:
+ * </pre>
+ */
 public final class XposedUtils {
 
     private static final String XPOSED_HELPERS = "de.robv.android.xposed.XposedHelpers";
     private static final String XPOSED_BRIDGE = "de.robv.android.xposed.XposedBridge";
-
 
     /**
      * 通过检查是否已经加载了XP类来检测
@@ -80,12 +88,14 @@ public final class XposedUtils {
      * 漏洞在，如果XP框架先hook了isXposedExistByThrow的返回值，那么后续就没法走了
      * 现在直接先hookXP框架的全局变量disableHooks
      *
-     * @return 是否关闭成功的结果
+     * @return              是否关闭成功的结果
      */
     public static boolean tryShutdownXposed() {
-        Field xpdisabledHooks = null;
+        Field xpdisabledHooks;
         try {
-            xpdisabledHooks = ClassLoader.getSystemClassLoader().loadClass(XPOSED_BRIDGE).getDeclaredField("disableHooks");
+            ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
+            Class<?> aClass = systemClassLoader.loadClass(XPOSED_BRIDGE);
+            xpdisabledHooks = aClass.getDeclaredField("disableHooks");
             xpdisabledHooks.setAccessible(true);
             xpdisabledHooks.set(null, Boolean.TRUE);
             return true;

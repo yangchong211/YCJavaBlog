@@ -1,4 +1,4 @@
-package com.yc.checktool;
+package com.yc.checktool.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -6,26 +6,29 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.text.TextUtils;
 
+import com.yc.checktool.model.CheckResult;
+import com.yc.checktool.inter.EmulatorCallback;
+
 import static android.content.Context.SENSOR_SERVICE;
-import static com.yc.checktool.CheckResult.RESULT_EMULATOR;
-import static com.yc.checktool.CheckResult.RESULT_MAYBE_EMULATOR;
-import static com.yc.checktool.CheckResult.RESULT_UNKNOWN;
+import static com.yc.checktool.model.CheckResult.RESULT_EMULATOR;
+import static com.yc.checktool.model.CheckResult.RESULT_MAYBE_EMULATOR;
+import static com.yc.checktool.model.CheckResult.RESULT_UNKNOWN;
 
 
-public class EmulatorCheckUtil {
-    private EmulatorCheckUtil() {
+public class EmulatorUtils {
+    private EmulatorUtils() {
 
     }
 
     private static class SingletonHolder {
-        private static final EmulatorCheckUtil INSTANCE = new EmulatorCheckUtil();
+        private static final EmulatorUtils INSTANCE = new EmulatorUtils();
     }
 
-    public static final EmulatorCheckUtil getSingleInstance() {
+    public static final EmulatorUtils getSingleInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public boolean readSysProperty(Context context, EmulatorCheckCallback callback) {
+    public boolean readSysProperty(Context context, EmulatorCallback callback) {
         if (context == null)
             throw new IllegalArgumentException("context must not be null");
 
@@ -165,7 +168,7 @@ public class EmulatorCheckUtil {
     }
 
     private String getProperty(String propName) {
-        String property = CommandUtil.getSingleInstance().getProperty(propName);
+        String property = CommandUtils.getProperty(propName);
         return TextUtils.isEmpty(property) ? null : property;
     }
 
@@ -302,7 +305,7 @@ public class EmulatorCheckUtil {
      * 获取已安装第三方应用数量
      */
     private int getUserAppNumber() {
-        String userApps = CommandUtil.getSingleInstance().exec("pm list package -3");
+        String userApps = CommandUtils.exec("pm list package -3");
         return getUserAppNum(userApps);
     }
 
@@ -344,7 +347,7 @@ public class EmulatorCheckUtil {
      * 特征参数-进程组信息
      */
     private CheckResult checkFeaturesByCgroup() {
-        String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
+        String filter = CommandUtils.exec("cat /proc/self/cgroup");
         if (null == filter) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
         return new CheckResult(RESULT_UNKNOWN, filter);
     }

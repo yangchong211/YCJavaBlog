@@ -1,4 +1,4 @@
-package com.yc.checktool;
+package com.yc.checktool.model;
 
 public class CheckResult {
 

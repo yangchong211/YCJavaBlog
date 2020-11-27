@@ -1,7 +1,5 @@
 package com.yc.checktool.utils;
 
-import com.yc.checktool.CommandUtil;
-
 import java.io.File;
 
 /**
@@ -55,7 +53,7 @@ public final class AppRootUtils {
 
     private static int getroSecureProp() {
         int secureProp;
-        String roSecureObj = CommandUtil.getSingleInstance().getProperty("ro.secure");
+        String roSecureObj = CommandUtils.getProperty("ro.secure");
         if (roSecureObj == null) {
             secureProp = 1;
         } else {
@@ -70,7 +68,7 @@ public final class AppRootUtils {
 
     private static int getroDebugProp() {
         int debugProp;
-        String roDebugObj = CommandUtil.getSingleInstance().getProperty("ro.debuggable");
+        String roDebugObj = CommandUtils.getProperty("ro.debuggable");
         if (roDebugObj == null) debugProp = 1;
         else {
             if ("0".equals(roDebugObj)) debugProp = 0;
