@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.yc.checktool.R;
 import com.yc.checktool.help.CheckAppTool;
 import com.yc.checktool.inter.EmulatorCallback;
+import com.yc.checktool.inter.VirtualCallback;
+import com.yc.checktool.utils.VirtualApkUtils;
 import com.yc.checktool.utils.XposedUtils;
 
 public class CheckTooActivity extends AppCompatActivity implements View.OnClickListener {
@@ -25,6 +27,8 @@ public class CheckTooActivity extends AppCompatActivity implements View.OnClickL
     private TextView mTv7;
     private TextView mTv8;
     private TextView mTv9;
+    private TextView mTv10;
+    private TextView mTv11;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class CheckTooActivity extends AppCompatActivity implements View.OnClickL
         mTv7 = findViewById(R.id.tv_7);
         mTv8 = findViewById(R.id.tv_8);
         mTv9 = findViewById(R.id.tv_9);
+        mTv10 = findViewById(R.id.tv_10);
+        mTv11 = findViewById(R.id.tv_11);
     }
 
 
@@ -58,6 +64,8 @@ public class CheckTooActivity extends AppCompatActivity implements View.OnClickL
         mTv7.setOnClickListener(this);
         mTv8.setOnClickListener(this);
         mTv9.setOnClickListener(this);
+        mTv10.setOnClickListener(this);
+        mTv11.setOnClickListener(this);
     }
 
     @Override
@@ -72,7 +80,17 @@ public class CheckTooActivity extends AppCompatActivity implements View.OnClickL
         } else if (v.getId() == R.id.tv_2){
             startActivity(new Intent(this,AppInfoActivity.class));
         } else if (v.getId() == R.id.tv_3){
+            boolean b = VirtualApkUtils.getSingleInstance().checkByOriginApkPackageName(this, new VirtualCallback() {
+                @Override
+                public void findSuspect() {
 
+                }
+            });
+            if (b){
+                toast("是双开");
+            } else {
+                toast("不是双开");
+            }
         } else if (v.getId() == R.id.tv_4){
             String b = CheckAppTool.getInstance().getSignature(this);
             toast(b);
@@ -115,6 +133,20 @@ public class CheckTooActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 toast("未加载");
             }
+        } else if (v.getId() == R.id.tv_10){
+            boolean b = VirtualApkUtils.getSingleInstance().checkByHasSameUid(new VirtualCallback() {
+                @Override
+                public void findSuspect() {
+
+                }
+            });
+            if (b){
+                toast("有加载");
+            } else {
+                toast("未加载");
+            }
+        } else if (v.getId() == R.id.tv_11){
+
         }
     }
 

@@ -1,4 +1,7 @@
+include ':app'
+include ':launcher'
+include ':lib'
+include ':demo'
 include ':CheckTool'
 include ':MagiskTool'
-include ':app'
 rootProject.name = "YCMagiskTool"

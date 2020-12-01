@@ -1,4 +1,4 @@
-package com.yc.magisktool;
+package com.yc.xposeddemo;
 
 import android.app.Application;
 
