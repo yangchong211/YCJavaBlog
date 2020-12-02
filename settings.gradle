@@ -1,3 +1,4 @@
+include ':launcher'
 include ':app'
 include ':launcher'
 include ':lib'

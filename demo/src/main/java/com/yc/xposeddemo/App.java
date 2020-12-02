@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.yc.checktool.help.CheckAppTool;
 
+
 public class App extends Application {
 
     @Override
