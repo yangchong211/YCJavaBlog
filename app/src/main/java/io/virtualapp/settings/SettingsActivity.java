@@ -100,11 +100,14 @@ public class SettingsActivity extends Activity {
             SwitchPreference allowFakeSignature = (SwitchPreference) findPreference(ALLOW_FAKE_SIGNATURE);
             SwitchPreference disableXposed = (SwitchPreference) findPreference(DISABLE_XPOSED);
 
+
+            //添加应用
             addApp.setOnPreferenceClickListener(preference -> {
                 ListAppActivity.gotoListApp(getActivity());
                 return false;
             });
 
+            //模块管理
             moduleManage.setOnPreferenceClickListener(preference -> {
                 try {
                     Intent t = new Intent();

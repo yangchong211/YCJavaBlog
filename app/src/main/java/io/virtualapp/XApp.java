@@ -46,6 +46,7 @@ public class XApp extends Application {
         super.onCreate();
         VirtualCore virtualCore = VirtualCore.get();
         virtualCore.initialize(new MyVirtualInitializer(this, virtualCore));
+        LifecycleCallback.getInstance().init(this);
     }
 
 }

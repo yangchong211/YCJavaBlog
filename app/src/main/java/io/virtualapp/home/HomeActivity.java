@@ -4,36 +4,30 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.launcher3.LauncherFiles;
-import com.google.android.apps.nexuslauncher.NexusLauncherActivity;
 import com.lody.virtual.client.core.InstallStrategy;
 import com.lody.virtual.client.core.VirtualCore;
 import com.lody.virtual.helper.utils.DeviceUtil;
 import com.lody.virtual.helper.utils.FileUtils;
 import com.lody.virtual.helper.utils.MD5Utils;
-import com.lody.virtual.helper.utils.VLog;
 
 import org.jdeferred.DoneCallback;
 import org.jdeferred.Promise;
@@ -64,18 +58,17 @@ import static io.virtualapp.XApp.XPOSED_INSTALLER_PACKAGE;
  * @date 18/2/9.
  */
 
-public class NewHomeActivity extends NexusLauncherActivity {
+public class HomeActivity extends Activity {
 
     private static final String SHOW_DOZE_ALERT_KEY = "SHOW_DOZE_ALERT_KEY";
-    private static final String WALLPAPER_FILE_NAME = "wallpaper.png";
-
     private Handler mUiHandler;
     private boolean mDirectlyBack = false;
+    private TextView mTvOpen;
     private final AtomicBoolean checkXposedInstaller = new AtomicBoolean(true);
     private final AtomicBoolean checkWeChetInstaller = new AtomicBoolean(true);
 
     public static void goHome(Context context) {
-        Intent intent = new Intent(context, NewHomeActivity.class);
+        Intent intent = new Intent(context, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -85,20 +78,45 @@ public class NewHomeActivity extends NexusLauncherActivity {
     public void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home_main);
+        mTvOpen = findViewById(R.id.tv_open);
+        setWindow();
         showMenuKey();
         mUiHandler = new Handler(getMainLooper());
         alertForMeizu();
         alertForDonate();
         mDirectlyBack = sharedPreferences.getBoolean(SettingsActivity.DIRECTLY_BACK_KEY, false);
-        //userWeixin();
+        mTvOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isWeChatInstalled = VirtualCore.get().isAppInstalled(WeChat_INSTALLER_PACKAGE);
+                if (isWeChatInstalled){
+                    LoadingActivity.launch(getApplicationContext(), WeChat_INSTALLER_PACKAGE, 0);
+                    return;
+                }
+                Toast.makeText(HomeActivity.this,"请重启挂载微信",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    /**
-     * 打开微信
-     */
-    private void openWeChat(){
-        Intent intent = VirtualCore.get().getLaunchIntent("com.tencent.mm", 0);
-        startActivity(intent);
+
+    private void setWindow() {
+        // 全屏展示
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
+                this.getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            } else {
+                // 全屏显示，隐藏状态栏
+                this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+            }
+        }
     }
 
     private void installXposed() {
@@ -113,10 +131,8 @@ public class NewHomeActivity extends NexusLauncherActivity {
                 VirtualCore.get().uninstallPackage(XPOSED_INSTALLER_PACKAGE);
                 oldXposedInstallerApk.delete();
                 isXposedInstalled = false;
-                Log.d(TAG, "remove xposed installer success!");
             }
         } catch (Throwable e) {
-            VLog.d(TAG, "remove xposed install failed.", e);
         }
 
         if (!isXposedInstalled) {
@@ -139,7 +155,6 @@ public class NewHomeActivity extends NexusLauncherActivity {
                             output.write(buffer, 0, length);
                         }
                     } catch (Throwable e) {
-                        VLog.e(TAG, "copy file error", e);
                     } finally {
                         FileUtils.closeQuietly(input);
                         FileUtils.closeQuietly(output);
@@ -151,7 +166,6 @@ public class NewHomeActivity extends NexusLauncherActivity {
                         if ("8537fb219128ead3436cc19ff35cfb2e".equals(MD5Utils.getFileMD5String(xposedInstallerApk))) {
                             VirtualCore.get().installPackage(xposedInstallerApk.getPath(), InstallStrategy.TERMINATE_IF_EXIST);
                         } else {
-                            VLog.w(TAG, "unknown Xposed installer, ignore!");
                         }
                     } catch (Throwable ignored) {
                     }
@@ -181,10 +195,8 @@ public class NewHomeActivity extends NexusLauncherActivity {
                 VirtualCore.get().uninstallPackage(WeChat_INSTALLER_PACKAGE);
                 oldXposedInstallerApk.delete();
                 isXposedInstalled = false;
-                Log.d(TAG, "remove xposed installer success!");
             }
         } catch (Throwable e) {
-            VLog.d(TAG, "remove xposed install failed.", e);
         }
 
         if (!isXposedInstalled) {
@@ -202,7 +214,6 @@ public class NewHomeActivity extends NexusLauncherActivity {
                             output.write(buffer, 0, length);
                         }
                     } catch (Throwable e) {
-                        VLog.e(TAG, "copy file error", e);
                     } finally {
                         FileUtils.closeQuietly(input);
                         FileUtils.closeQuietly(output);
@@ -246,9 +257,6 @@ public class NewHomeActivity extends NexusLauncherActivity {
         // check for update
         new Handler().postDelayed(() ->
                 VAVersionService.checkUpdate(getApplicationContext(), false), 1000);
-
-        // check for wallpaper
-        setWallpaper();
     }
 
     @Override
@@ -268,11 +276,6 @@ public class NewHomeActivity extends NexusLauncherActivity {
         return this;
     }
 
-    @Override
-    public void onClickAddWidgetButton(View view) {
-        onAddAppClicked();
-    }
-
     private void onAddAppClicked() {
         //ListAppActivity.gotoListApp(this);
         onSettingsClicked();
@@ -288,42 +291,6 @@ public class NewHomeActivity extends NexusLauncherActivity {
             return;
         }
         Toast.makeText(this,"请重启挂载微信",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onClickSettingsButton(View v) {
-        onSettingsClicked();
-    }
-
-    @Override
-    protected void onClickAllAppsButton(View v) {
-        onSettingsClicked();
-    }
-
-    @Override
-    public void startVirtualActivity(Intent intent, Bundle options, int usedId) {
-        String packageName = intent.getPackage();
-        if (TextUtils.isEmpty(packageName)) {
-            ComponentName component = intent.getComponent();
-            if (component != null) {
-                packageName = component.getPackageName();
-            }
-        }
-        if (packageName == null) {
-            try {
-                startActivity(intent);
-                return;
-            } catch (Throwable ignored) {
-                // ignore
-            }
-        }
-        boolean result = LoadingActivity.launch(this, packageName, usedId);
-        if (!result) {
-            throw new ActivityNotFoundException("can not launch activity for :" + intent);
-        }
-        if (mDirectlyBack) {
-            finish();
-        }
     }
 
     private void alertForDonate() {
@@ -400,31 +367,6 @@ public class NewHomeActivity extends NexusLauncherActivity {
                     ignored.printStackTrace();
                 }
             }, 1000);
-        }
-    }
-
-    private void setWallpaper() {
-        File wallpaper = getFileStreamPath(WALLPAPER_FILE_NAME);
-        if (wallpaper == null || !wallpaper.exists() || wallpaper.isDirectory()) {
-            setOurWallpaper(getResources().getDrawable(R.drawable.wechat_splash));
-        } else {
-            long start = SystemClock.elapsedRealtime();
-            Drawable d;
-            try {
-                d = BitmapDrawable.createFromPath(wallpaper.getPath());
-            } catch (Throwable e) {
-                Toast.makeText(getApplicationContext(), R.string.wallpaper_too_big_tips, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            long cost = SystemClock.elapsedRealtime() - start;
-            if (cost > 200) {
-                Toast.makeText(getApplicationContext(), R.string.wallpaper_too_big_tips, Toast.LENGTH_SHORT).show();
-            }
-            if (d == null) {
-                setOurWallpaper(getResources().getDrawable(R.drawable.wechat_splash));
-            } else {
-                setOurWallpaper(d);
-            }
         }
     }
 

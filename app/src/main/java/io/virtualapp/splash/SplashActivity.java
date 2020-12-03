@@ -9,6 +9,7 @@ import io.virtualapp.R;
 import io.virtualapp.VCommends;
 import io.virtualapp.abs.ui.VActivity;
 import io.virtualapp.abs.ui.VUiKit;
+import io.virtualapp.home.HomeActivity;
 import io.virtualapp.home.NewHomeActivity;
 import jonathanfinerty.once.Once;
 
@@ -32,7 +33,8 @@ public class SplashActivity extends VActivity {
                 VUiKit.sleep(delta);
             }
         }).done((res) -> {
-            NewHomeActivity.goHome(this);
+            //NewHomeActivity.goHome(this);
+            HomeActivity.goHome(this);
             finish();
         });
     }

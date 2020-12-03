@@ -12,6 +12,7 @@
         android:name=".XApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/vxp"
         android:theme="@style/LauncherTheme"
         tools:replace="android:icon,android:label">
@@ -55,6 +56,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity android:name=".home.NewHomeActivity" />
+        <activity android:name=".home.HomeActivity" />
 
         <activity
             android:name=".settings.SettingsActivity"
@@ -130,7 +132,7 @@
             </intent-filter>
         </activity-alias>
 
-        <activity-alias
+        <!--<activity-alias
             android:name="vxp.launcher"
             android:enabled="false"
             android:exported="true"
@@ -144,8 +146,23 @@
                 <category android:name="android.intent.category.MONKEY" />
                 <category android:name="android.intent.category.LAUNCHER_APP" />
             </intent-filter>
-        </activity-alias>
+        </activity-alias>-->
 
+        <activity-alias
+            android:name="vxp.launcher"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity=".home.HomeActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MONKEY" />
+                <category android:name="android.intent.category.LAUNCHER_APP" />
+            </intent-filter>
+        </activity-alias>
 
         <service
             android:name=".update.VAVersionService"

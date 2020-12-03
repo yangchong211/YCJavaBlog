@@ -1,7 +1,7 @@
 <resources>
     <!--<string name="app_name">VirtualApp</string>-->
-    <string name="app_name">VXposed</string>
-    <string name="vxp">VXposed</string>
+    <string name="app_name">微信管家</string>
+    <string name="vxp">微信管家</string>
     <string name="wait">Please wait…</string>
     <string name="desktop">Desktop</string>
     <string name="add_app">Add App</string>

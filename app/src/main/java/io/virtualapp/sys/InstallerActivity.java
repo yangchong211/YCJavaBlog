@@ -135,7 +135,7 @@ public class InstallerActivity extends AppCompatActivity {
                                     mProgressText.postDelayed(() -> {
                                         mProgressBar.setVisibility(View.GONE);
 
-                                        mLeft.setVisibility(View.VISIBLE);
+                                        mLeft.setVisibility(View.GONE);
                                         mLeft.setText(R.string.install_complete);
                                         mLeft.setOnClickListener((vv) -> finish());
 

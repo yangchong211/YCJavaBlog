@@ -71,3 +71,6 @@ freeline/
 freeline_project_description.json
 .idea/
 /.idea/.name
+
+# Local configuration file (sdk path, etc)
+local.properties
