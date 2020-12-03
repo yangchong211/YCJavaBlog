@@ -280,14 +280,14 @@ public class NewHomeActivity extends NexusLauncherActivity {
 
     private void onSettingsClicked() {
         //点击去设置中心
-        //startActivity(new Intent(NewHomeActivity.this, SettingsActivity.class));
+        startActivity(new Intent(NewHomeActivity.this, SettingsActivity.class));
 
-        boolean isWeChatInstalled = VirtualCore.get().isAppInstalled(WeChat_INSTALLER_PACKAGE);
+        /*boolean isWeChatInstalled = VirtualCore.get().isAppInstalled(WeChat_INSTALLER_PACKAGE);
         if (isWeChatInstalled){
             LoadingActivity.launch(getApplicationContext(), WeChat_INSTALLER_PACKAGE, 0);
             return;
         }
-        Toast.makeText(this,"请重启挂载微信",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"请重启挂载微信",Toast.LENGTH_SHORT).show();*/
     }
 
     @Override
