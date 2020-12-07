@@ -33,8 +33,8 @@ public class SplashActivity extends VActivity {
                 VUiKit.sleep(delta);
             }
         }).done((res) -> {
-            //NewHomeActivity.goHome(this);
-            HomeActivity.goHome(this);
+            NewHomeActivity.goHome(this);
+            //HomeActivity.goHome(this);
             finish();
         });
     }

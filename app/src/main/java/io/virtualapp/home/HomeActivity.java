@@ -255,8 +255,8 @@ public class HomeActivity extends Activity {
             userWeixin();
         }
         // check for update
-        new Handler().postDelayed(() ->
-                VAVersionService.checkUpdate(getApplicationContext(), false), 1000);
+        //new Handler().postDelayed(() ->
+        //        VAVersionService.checkUpdate(getApplicationContext(), false), 1000);
     }
 
     @Override

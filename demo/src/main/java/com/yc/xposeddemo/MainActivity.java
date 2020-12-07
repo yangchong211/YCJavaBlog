@@ -18,7 +18,11 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         mTvText = findViewById(R.id.tv_text);
         mTvText.setText("模拟插件测试工具");
+        //setText("模拟插件测试工具");
     }
 
+    private void setText(CharSequence charSequence){
+        mTvText.setText(charSequence);
+    }
 
 }
