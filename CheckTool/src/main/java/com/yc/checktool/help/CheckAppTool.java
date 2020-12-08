@@ -19,7 +19,7 @@ public class CheckAppTool {
 
 
     private static CheckAppTool INSTANCE;
-    private Application app;
+    private Context app;
 
     /**
      * 获取NetworkTool实例 ,单例模式
@@ -35,11 +35,15 @@ public class CheckAppTool {
         return INSTANCE;
     }
 
-    public void init(Application application){
-        this.app = application;
+    public void init(Context context){
+        if (context instanceof Application){
+            this.app = context;
+        } else {
+            this.app = context.getApplicationContext();
+        }
     }
 
-    public Application getApplication() {
+    public Context getApplication() {
         return app;
     }
 

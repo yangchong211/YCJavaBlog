@@ -1,6 +1,7 @@
 package com.yc.checktool.ui;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -57,7 +58,7 @@ public class AppInfoActivity extends AppCompatActivity {
     }
 
     private void setPhoneInfo() {
-        Application application = CheckAppTool.getInstance().getApplication();
+        Context application = CheckAppTool.getInstance().getApplication();
         final StringBuilder sb = new StringBuilder();
         sb.append("该App信息:");
         String currentProcessName = AppProcessUtils.getCurrentProcessName(this);
@@ -89,7 +90,7 @@ public class AppInfoActivity extends AppCompatActivity {
     }
 
     private void setAppInfo() {
-        Application application = CheckAppTool.getInstance().getApplication();
+        Context application = CheckAppTool.getInstance().getApplication();
         //版本信息
         String versionName = "";
         String versionCode = "";
@@ -126,7 +127,7 @@ public class AppInfoActivity extends AppCompatActivity {
 
 
     private void setLocationInfo() {
-        Application application = CheckAppTool.getInstance().getApplication();
+        Context application = CheckAppTool.getInstance().getApplication();
         StringBuilder sb = new StringBuilder();
         sb.append("wifi信号强度:").append(AppDeviceUtils.getWifiState(application));
         sb.append("\nAndroidID:").append(AppDeviceUtils.getAndroidID(application));

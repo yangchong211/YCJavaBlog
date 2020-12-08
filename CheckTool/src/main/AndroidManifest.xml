@@ -15,6 +15,12 @@
         <activity android:name=".ui.AppInfoActivity"
             android:screenOrientation="portrait"/>
 
+        <provider
+            android:name=".help.ToolContentProvider"
+            android:authorities="ToolContentProvider"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>
