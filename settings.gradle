@@ -1,9 +1,0 @@
-include ':ZxgPulgin'
-include ':launcher'
-include ':app'
-include ':launcher'
-include ':lib'
-include ':demo'
-include ':CheckTool'
-include ':MagiskTool'
-rootProject.name = "YCMagiskTool"
