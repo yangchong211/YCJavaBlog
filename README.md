@@ -52,6 +52,7 @@
 - [8.1 彻底搞透彻内存模型](https://blog.csdn.net/m0_37700275/article/details/80931563)
 - [8.2 JVM即时编译器原理](https://blog.csdn.net/m0_37700275/article/details/81020889)
 - [8.3 JVM内存回收清理机制](https://blog.csdn.net/m0_37700275/article/details/81147949)
+- [8.4 JVM如何执行方法调用]()
 
 
 
