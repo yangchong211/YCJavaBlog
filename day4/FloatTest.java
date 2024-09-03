@@ -1,4 +1,4 @@
-package day1;
+package day4;
 
 public class FloatTest {
 
