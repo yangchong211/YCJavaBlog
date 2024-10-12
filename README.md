@@ -1,58 +1,56 @@
 # Java专栏精品博客
+#### 目录介绍
+- 01.Java专栏的介绍
+- 02.Java高级进阶
+- 03.JVM虚拟机进阶
+- 04.数据集合设计
+- 05.更多内容推荐
+
+
+
+## 01.Java专栏的介绍
 
 
 
 
-### Java基础
-- [1.1 String深入理解原理](https://blog.csdn.net/m0_37700275/article/details/137341567)
-- [1.2 浮点型数据深入研究](https://blog.csdn.net/m0_37700275/article/details/75675345)
-- [1.3 数据装箱和拆箱原理](https://blog.csdn.net/m0_37700275/article/details/76161568)
-- [1.4 泛型由来和设计思想](https://blog.csdn.net/m0_37700275/article/details/77096606)
-- [1.5 加密和解密设计和原理](https://blog.csdn.net/m0_37700275/article/details/77198513)
-- [2.1 面向对象设计思想](https://blog.csdn.net/m0_37700275/article/details/77198606)
-- [2.2 抽象类和接口设计](https://blog.csdn.net/m0_37700275/article/details/77266565)
-- [2.3 封装和继承设计思想](https://blog.csdn.net/m0_37700275/article/details/77947974)
-- [2.4 复用和组合设计思想](https://blog.csdn.net/m0_37700275/article/details/78033094)
-- [2.5 对象和引用设计思想](https://blog.csdn.net/m0_37700275/article/details/78206834)
-- [3.1 IO流设计思想和原理](https://blog.csdn.net/m0_37700275/article/details/78252793)
-- [3.2 为何设计序列化数据](https://blog.csdn.net/m0_37700275/article/details/78276558)
-- [3.3 各种拷贝数据比较](https://blog.csdn.net/m0_37700275/article/details/78298505)
-- [3.4 高效文件读写的原理](https://blog.csdn.net/m0_37700275/article/details/78493364)
-- [4.1 反射性能探索和优化](https://blog.csdn.net/m0_37700275/article/details/78493592)
-- [4.2 为何要设计注解思想](https://blog.csdn.net/m0_37700275/article/details/78533930)
-- [4.3 动态代理的设计思想](https://blog.csdn.net/m0_37700275/article/details/78534092)
-- [4.4 SPI机制设计的思想](https://blog.csdn.net/m0_37700275/article/details/78617575)
-- [4.5 异常设计和捕获原理](https://blog.csdn.net/m0_37700275/article/details/78690243)
-- [4.6 虚拟机如何处理异常](https://blog.csdn.net/m0_37700275/article/details/78783049)
-- [4.7 四种引用设计思想](https://blog.csdn.net/m0_37700275/article/details/78745024)
-- [5.1 线程的前世今生探索](https://blog.csdn.net/m0_37700275/article/details/79006266)
-- [5.2 线程通信的设计思想](https://blog.csdn.net/m0_37700275/article/details/79074671)
-- [5.3 线程监控和Debug设计](https://blog.csdn.net/m0_37700275/article/details/79198160)
-- [5.4线程和JVM之间联系](https://blog.csdn.net/m0_37700275/article/details/79232387)
-- [5.5 线程池使用技巧介绍](https://blog.csdn.net/m0_37700275/article/details/79256959)
-- [5.6 线程池设计核心原理](https://blog.csdn.net/m0_37700275/article/details/79262793)
-- [5.7 线程如何最大优化]()
-- [6.1 多线程并发经典案例](https://blog.csdn.net/m0_37700275/article/details/79269250)
-- [6.2 并发安全前世今生](https://blog.csdn.net/m0_37700275/article/details/79269722)
-- [6.3 线程安全如何保证](https://blog.csdn.net/m0_37700275/article/details/79288199)
-- [6.4 变量的安全性探索](https://blog.csdn.net/m0_37700275/article/details/79296188)
-- [6.5 并发上下文切换原理](https://blog.csdn.net/m0_37700275/article/details/79395482)
-- [6.6 理解CAS设计和由来](https://blog.csdn.net/m0_37700275/article/details/79579206)
-- [6.7 协程设计思想和原理](https://blog.csdn.net/m0_37700275/article/details/79624491)
-- [6.8 事物并发模型解读](https://blog.csdn.net/m0_37700275/article/details/79668313)
-- [6.9 并发设计模型研究](https://blog.csdn.net/m0_37700275/article/details/79820814)
-- [6.10 并发编程数据一致性](https://blog.csdn.net/m0_37700275/article/details/79832978)
-- [6.11 锁问题的定位和修复](https://blog.csdn.net/m0_37700275/article/details/79880837)
-- [6.12 多线程如何性能调优](https://blog.csdn.net/m0_37700275/article/details/79895315)
-- [7.1 类的加载过程和原理](https://blog.csdn.net/m0_37700275/article/details/79979070)
-- [7.2 对象布局设计的原理](https://blog.csdn.net/m0_37700275/article/details/79979083)
-- [7.3 双亲委派机制设计思想](https://blog.csdn.net/m0_37700275/article/details/79979097)
-- [7.5 代码攻击和安全防护](https://blog.csdn.net/m0_37700275/article/details/80863685)
-- [7.6 设计动态生成Java类](https://blog.csdn.net/m0_37700275/article/details/80917894)
-- [8.1 彻底搞透彻内存模型](https://blog.csdn.net/m0_37700275/article/details/80931563)
-- [8.2 JVM即时编译器原理](https://blog.csdn.net/m0_37700275/article/details/81020889)
-- [8.3 JVM内存回收清理机制](https://blog.csdn.net/m0_37700275/article/details/81147949)
-- [8.4 JVM如何执行方法调用]()
+## 02.Java高级进阶
+- [1.1String深入理解原理](https://yccoding.com/zh/java/advanced/1.1String%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%8E%9F%E7%90%86.html)
+- [1.2浮点型数据深入研究](https://yccoding.com/zh/java/advanced/1.2%E6%B5%AE%E7%82%B9%E5%9E%8B%E6%95%B0%E6%8D%AE%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6.html)
+- [1.3数据装箱和拆箱原理](https://yccoding.com/zh/java/advanced/1.3%E6%95%B0%E6%8D%AE%E8%A3%85%E7%AE%B1%E5%92%8C%E6%8B%86%E7%AE%B1%E5%8E%9F%E7%90%86.html)
+- [1.4泛型由来和设计思想](https://yccoding.com/zh/java/advanced/1.4%E6%B3%9B%E5%9E%8B%E7%94%B1%E6%9D%A5%E5%92%8C%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3.html)
+- [1.5加密和解密设计和原理](https://yccoding.com/zh/java/advanced/1.5%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%8E%9F%E7%90%86.html)
+- [2.1面向对象设计思想](https://yccoding.com/zh/java/advanced/2.1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3.html)
+- [2.2抽象类和接口设计](https://yccoding.com/zh/java/advanced/2.2%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1.html)
+- [2.3封装和继承设计思想](https://yccoding.com/zh/java/advanced/2.3%E5%B0%81%E8%A3%85%E5%92%8C%E7%BB%A7%E6%89%BF%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3.html)
+- [2.4复用和组合设计思想](https://yccoding.com/zh/java/advanced/2.4%E5%A4%8D%E7%94%A8%E5%92%8C%E7%BB%84%E5%90%88%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3.html)
+
+
+
+
+
+
+## 03.JVM虚拟机进阶
+
+
+## 04.数据集合设计
+
+
+
+
+
+## 05.更多内容推荐
+| 模块      | 描述                                              | 备注                                                       |
+|---------|-------------------------------------------------|----------------------------------------------------------|
+| GitHub  | 多个YC系列开源项目，包含Android组件库，以及多个案例                  | [GitHub](https://github.com/yangchong211)                |
+| 博客汇总    | 汇聚Java，Android，C/C++，网络协议，算法，编程总结等              | [YCBlogs](https://github.com/yangchong211/YCBlogs)       |
+| 设计模式    | 六大设计原则，23种设计模式，设计模式案例，面向对象思想                    | [设计模式](https://github.com/yangchong211/YCDesignBlog)     |
+| Java进阶  | 数据设计和原理，面向对象核心思想，IO，异常，线程和并发，JVM                | [Java高级](https://github.com/yangchong211/YCJavaBlog)     |
+| 网络协议    | 网络实际案例，网络原理和分层，Https，网络请求，故障排查                  | [网络协议](https://github.com/yangchong211/YCNetwork)        |
+| 计算机原理   | 计算机组成结构，框架，存储器，CPU设计，内存设计，指令编程原理，异常处理机制，IO操作和原理 | [计算机基础](https://github.com/yangchong211/YCComputerBlog)  |
+| 学习C编程   | C语言入门级别系统全面的学习教程，学习三到四个综合案例                     | [C编程](https://github.com/yangchong211/YCStudyC)          |
+| C++编程   | C++语言入门级别系统全面的教学教程，并发编程，核心原理                    | [C++编程](https://github.com/yangchong211/YCStudyCpp)      |
+| 算法实践    | 专栏，数组，链表，栈，队列，树，哈希，递归，查找，排序等                    | [Leetcode](https://github.com/yangchong211/YCLeetcode)   |
+| Android | 基础入门，开源库解读，性能优化，Framework，方案设计                  | [Android](https://github.com/yangchong211/YCAndroidBlog) |
 
 
 
